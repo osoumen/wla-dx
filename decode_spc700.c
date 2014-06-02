@@ -29,8 +29,14 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
       if (opt_tmp->op[x] == 0 && buffer[inz] == 0x0A) {
 	if (z == SUCCEEDED)
 	  fprintf(file_out_ptr, "d%d d%d ", opt_tmp->hex, d);
-	else if (z == INPUT_NUMBER_ADDRESS_LABEL)
-	  fprintf(file_out_ptr, "k%d d%d R%s ", active_file_info_last->line_current, opt_tmp->hex, label);
+	else if (z == INPUT_NUMBER_ADDRESS_LABEL) {
+	  if (opt_tmp->type == 0xE) {
+	    fprintf(file_out_ptr, "k%d d%d R%s ", active_file_info_last->line_current, opt_tmp->hex, label);
+	  }
+	  else {
+	  	fprintf(file_out_ptr, "k%d d%d Q%s ", active_file_info_last->line_current, opt_tmp->hex, label);
+	  }
+	}
 	else {
 	  fprintf(file_out_ptr, "d%d c%d ", opt_tmp->hex, latest_stack);
 	  if (opt_tmp->type == 0xE) {
@@ -127,7 +133,7 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 	    if (v == SUCCEEDED)
 	      fprintf(file_out_ptr, "d%d ", e);
 	    else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-	      fprintf(file_out_ptr, "k%d R%s ", active_file_info_last->line_current, labelx);
+	      fprintf(file_out_ptr, "k%d Q%s ", active_file_info_last->line_current, labelx);
 	    else
 	      fprintf(file_out_ptr, "c%d ", h);
 	    
@@ -187,7 +193,7 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 	    if (v == SUCCEEDED)
 	      fprintf(file_out_ptr, "d%d ", e);
 	    else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-	      fprintf(file_out_ptr, "k%d R%s ", active_file_info_last->line_current, labelx);
+	      fprintf(file_out_ptr, "k%d Q%s ", active_file_info_last->line_current, labelx);
 	    else
 	      fprintf(file_out_ptr, "c%d ", h);
 	    
@@ -271,7 +277,7 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 	    if (v == SUCCEEDED)
 	      fprintf(file_out_ptr, "d%d d%d ", opt_tmp->hex, e);
 	    else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-	      fprintf(file_out_ptr, "k%d d%d R%s ", active_file_info_last->line_current, opt_tmp->hex, labelx);
+	      fprintf(file_out_ptr, "k%d d%d Q%s ", active_file_info_last->line_current, opt_tmp->hex, labelx);
 	    else
 	      fprintf(file_out_ptr, "d%d c%d ", opt_tmp->hex, h);
 
@@ -339,14 +345,14 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 	    if (z == SUCCEEDED)
 	      fprintf(file_out_ptr, "d%d d%d ", opt_tmp->hex, d);
 	    else if (z == INPUT_NUMBER_ADDRESS_LABEL)
-	      fprintf(file_out_ptr, "k%d d%d R%s ", active_file_info_last->line_current, opt_tmp->hex, label);
+	      fprintf(file_out_ptr, "k%d d%d Q%s ", active_file_info_last->line_current, opt_tmp->hex, label);
 	    else
 	      fprintf(file_out_ptr, "d%d c%d ", opt_tmp->hex, latest_stack);
 	    
 	    if (v == SUCCEEDED)
 	      fprintf(file_out_ptr, "d%d ", e);
 	    else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-	      fprintf(file_out_ptr, "k%d R%s ", active_file_info_last->line_current, labelx);
+	      fprintf(file_out_ptr, "k%d Q%s ", active_file_info_last->line_current, labelx);
 	    else
 	      fprintf(file_out_ptr, "c%d ", h);
 	    
@@ -419,7 +425,7 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 		if (v == SUCCEEDED)
 		  fprintf(file_out_ptr, "d%d ", e);
 		else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-		  fprintf(file_out_ptr, "k%d R%s ", active_file_info_last->line_current, labelx);
+		  fprintf(file_out_ptr, "k%d Q%s ", active_file_info_last->line_current, labelx);
 		else
 		  fprintf(file_out_ptr, "c%d ", h);
 
@@ -506,7 +512,7 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 		if (v == SUCCEEDED)
 		  fprintf(file_out_ptr, "d%d ", e);
 		else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-		  fprintf(file_out_ptr, "k%d R%s ", active_file_info_last->line_current, labelx);
+		  fprintf(file_out_ptr, "k%d Q%s ", active_file_info_last->line_current, labelx);
 		else
 		  fprintf(file_out_ptr, "c%d ", h);
 		
