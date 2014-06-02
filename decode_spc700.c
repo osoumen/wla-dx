@@ -539,3 +539,68 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
     break;
  }
 break;
+
+case 0xF:
+for ( ; x < OP_SIZE_MAX; inz++, x++) {
+	if (opt_tmp->op[x] == '?') {
+	  y = i;
+	  i = inz;
+	  parse_floats = NO;
+	  z = input_number();
+	  parse_floats = YES;
+	  inz = i;
+	  i = y;
+	  if (!(z == SUCCEEDED || z == INPUT_NUMBER_ADDRESS_LABEL || z == INPUT_NUMBER_STACK))
+	    return FAILED;
+	  if (z == SUCCEEDED && (d > 8191 || d < 0)){
+	    print_error("Out of 13bit range.\n", ERROR_NUM);
+	    break;
+	  }
+
+	  e = d;
+	  v = z;
+	  h = latest_stack;
+	  if (z == INPUT_NUMBER_ADDRESS_LABEL)
+	    strcpy(labelx, label);
+
+	  for (x++; x < OP_SIZE_MAX; inz++, x++) {
+	    if (opt_tmp->op[x] == 'x') {
+	      y = i;
+	      i = inz;
+	      z = input_number();
+	      inz = i;
+	      i = y;
+	      if (!(z == SUCCEEDED || z == INPUT_NUMBER_ADDRESS_LABEL || z == INPUT_NUMBER_STACK))
+					return FAILED;
+	      if (z == SUCCEEDED && (d > 7 || d < 0)){
+	        print_error("Out of 3bit range.\n", ERROR_NUM);
+		break;
+	      }
+
+	      e <<=3;
+	      e |= d;
+	      for (x++; x < OP_SIZE_MAX; inz++, x++) {
+					if (opt_tmp->op[x] == 0 && buffer[inz] == 0x0A) {
+						if (v == SUCCEEDED)
+							fprintf(file_out_ptr, "d%d y%d ", opt_tmp->hex, e);
+						else if (v == INPUT_NUMBER_ADDRESS_LABEL)
+							fprintf(file_out_ptr, "k%d d%d r%s ", active_file_info_last->line_current, opt_tmp->hex, labelx);
+						else
+							fprintf(file_out_ptr, "c%d ", h);
+
+						i = inz;
+						return SUCCEEDED;
+					}
+					if (opt_tmp->op[x] != toupper((int)buffer[inz]))
+						break;
+	      }
+	    }
+	    if (opt_tmp->op[x] != toupper((int)buffer[inz]))
+	      break;
+	  }
+	}
+	if (opt_tmp->op[x] != toupper((int)buffer[inz]))
+	  break;
+ }
+break;
+
