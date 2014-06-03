@@ -409,6 +409,7 @@ int pass_3(void) {
     case 'M':
 #endif
     case 'r':
+    case 'u':
       fscanf(f_in, "%*s ");
       add += 2;
       continue;

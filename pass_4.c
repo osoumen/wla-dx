@@ -708,6 +708,48 @@ int pass_4(void) {
           return FAILED;
 
         continue;
+
+        /* 3bit+13bit REFERENCE */
+
+      case 'u':
+        z = fgetc(file_out_ptr) - '0';
+        fscanf(file_out_ptr, "%256s", tmp);
+
+        x = 0;
+        tmp_def = defines;
+        while (tmp_def != NULL) {
+          if (strcmp(tmp, tmp_def->alias) == 0) {
+            if (tmp_def->type == DEFINITION_TYPE_STACK)
+              break;
+            if (tmp_def->type == DEFINITION_TYPE_STRING) {
+              fprintf(stderr, "%s:%d: INTERNAL_PASS_2: Reference to a string definition \"%s\"?\n", get_file_name(filename_id), line_number, tmp);
+              return FAILED;
+            }
+            o = tmp_def->value;
+            x = 1;
+
+            if (mem_insert(((o<<3) & 0xF4) + z) == FAILED)
+              return FAILED;
+            if (mem_insert(((o<<3) & 0xFF00) >> 8) == FAILED)
+              return FAILED;
+
+            break;
+          }
+          tmp_def = tmp_def->next;
+        }
+
+        if (x == 1)
+          continue;
+
+        if (new_unknown_reference(REFERENCE_TYPE_DIRECT_13BIT_0+z) == FAILED)
+          return FAILED;
+
+        if (mem_insert_padding() == FAILED)
+          return FAILED;
+        if (mem_insert_padding() == FAILED)
+          return FAILED;
+
+        continue;
     }
   }
 

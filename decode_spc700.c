@@ -590,7 +590,7 @@ for ( ; x < OP_SIZE_MAX; inz++, x++) {
 						if (v == SUCCEEDED)
 							fprintf(file_out_ptr, "d%d y%d ", opt_tmp->hex, e);
 						else if (v == INPUT_NUMBER_ADDRESS_LABEL)
-							fprintf(file_out_ptr, "k%d d%d r%s ", active_file_info_last->line_current, opt_tmp->hex, labelx);
+							fprintf(file_out_ptr, "k%d d%d u%d%s ", active_file_info_last->line_current, opt_tmp->hex, d, labelx);
 						else
 							fprintf(file_out_ptr, "c%d ", h);
 

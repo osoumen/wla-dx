@@ -59,6 +59,14 @@
 #define REFERENCE_TYPE_DIRECT_8BIT    2
 #define REFERENCE_TYPE_DIRECT_24BIT   3
 #define REFERENCE_TYPE_RELATIVE_16BIT 4
+#define REFERENCE_TYPE_DIRECT_13BIT_0 8
+#define REFERENCE_TYPE_DIRECT_13BIT_1 9
+#define REFERENCE_TYPE_DIRECT_13BIT_2 10
+#define REFERENCE_TYPE_DIRECT_13BIT_3 11
+#define REFERENCE_TYPE_DIRECT_13BIT_4 12
+#define REFERENCE_TYPE_DIRECT_13BIT_5 13
+#define REFERENCE_TYPE_DIRECT_13BIT_6 14
+#define REFERENCE_TYPE_DIRECT_13BIT_7 15
 
 #define ERROR_NONE 0
 #define ERROR_LOG  1
@@ -107,6 +115,7 @@
 /* G - block (end)         */
 /* Y - symbol              */
 /* Z - breakpoint          */
+/* u - 3bit+13bit reference*/
 
 /**************************************************************/
 /* gb-z80                                                     */

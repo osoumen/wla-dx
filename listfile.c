@@ -121,6 +121,7 @@ int listfile_collect(void) {
     case 'M':
 #endif
     case 'r':
+    case 'u':
       fscanf(f_in, "%*s ");
       add += 2;
       continue;

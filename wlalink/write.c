@@ -507,7 +507,7 @@ int fix_references(void) {
   struct reference *r;
   struct section *s = NULL;
   struct label *l, lt;
-  int i, x;
+  int i, x, o;
 
   section_overwrite = OFF;
 
@@ -702,6 +702,17 @@ int fix_references(void) {
 				mem_insert_ref(x, i & 0xFF);
 				mem_insert_ref(x + 1, (i >> 8) & 0xFF);
       }
+			else if (r->type >= REFERENCE_TYPE_DIRECT_13BIT_0 && r->type <= REFERENCE_TYPE_DIRECT_13BIT_7) {
+				i = l->address;
+				o = r->type - REFERENCE_TYPE_DIRECT_13BIT_0;
+				if (i < 0 || i > 8191) {
+					fprintf(stderr, "%s:%s:%d: FIX_REFERENCES: Value ($%x) of \"%s\" is too much to be a 13bit value.\n",
+									get_file_name(r->file_id), get_source_file_name(r->file_id, r->file_id_source), r->linenumber, i, l->name);
+					return FAILED;
+				}
+				mem_insert_ref(x, ((i << 3) & 0xF4) + o);
+				mem_insert_ref(x + 1, (i >> 5) & 0xFF);
+			}
       else {
 				i = ((int)l->address) & 0xFFFF;
 				if (i > 255) {
