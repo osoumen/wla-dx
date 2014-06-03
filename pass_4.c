@@ -461,6 +461,49 @@ int pass_4(void) {
 
         continue;
 
+        /* 13BIT COMPUTATION */
+
+      case 'U':
+        z = fgetc(file_out_ptr) - '0';
+        fscanf(file_out_ptr, "%d", &inz);
+
+        if (bankheader_status == OFF)
+          stacks_tmp = stacks_first;
+        else
+          stacks_tmp = stacks_header_first;
+
+        while (stacks_tmp != NULL) {
+          if (stacks_tmp->id == inz)
+            break;
+          stacks_tmp = stacks_tmp->next;
+        }
+
+        if (stacks_tmp == NULL) {
+          fprintf(stderr, "%s:%d: INTERNAL_PASS_2: Could not find computation stack number %d. WLA corruption detected. Please send a bug report!\n", get_file_name(filename_id), line_number, inz);
+          return FAILED;
+        }
+
+        if (stacks_tmp->section_status == ON) {
+          stacks_tmp->address = sec_tmp->i; /* relative address, to the beginning of the section */
+        }
+        else {
+          stacks_tmp->address = pc_bank; /* complete address, in ROM memory */
+        }
+
+        stacks_tmp->bank = rom_bank;
+        stacks_tmp->slot = slot;
+        stacks_tmp->type = STACKS_TYPE_13BIT_0 + z;
+
+        /* this stack was referred from the code */
+        stacks_tmp->position = STACK_POSITION_CODE;
+
+        if (mem_insert_padding() == FAILED)
+          return FAILED;
+        if (mem_insert_padding() == FAILED)
+          return FAILED;
+
+        continue;
+
 #ifdef W65816
         /* 24BIT COMPUTATION */
 

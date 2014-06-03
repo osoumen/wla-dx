@@ -1005,7 +1005,7 @@ int compute_pending_calculations(void) {
 
   struct section *s;
   struct stack *sta;
-  int k, a;
+  int k, a, o;
 
   section_overwrite = ON;
 
@@ -1155,6 +1155,18 @@ int compute_pending_calculations(void) {
       if (mem_insert_ref(a, k & 0xFF) == FAILED)
 				return FAILED;
       if (mem_insert_ref(a + 1, (k >> 8) & 0xFF) == FAILED)
+				return FAILED;
+    }
+    else if (sta->type >= STACKS_TYPE_13BIT_0 && sta->type <= STACKS_TYPE_13BIT_7) {
+      o = sta->type - STACKS_TYPE_13BIT_0;
+      if (k < 0 || k > 8191) {
+				fprintf(stderr, "%s:%s:%d: COMPUTE_PENDING_CALCULATIONS: Result (%d/$%x) of a computation is out of 13bit range.\n",
+								get_file_name(sta->file_id), get_source_file_name(sta->file_id, sta->file_id_source), sta->linenumber, k, k);
+				return FAILED;
+      }
+      if (mem_insert_ref(a, ((k << 3) & 0xF8) + o) == FAILED)
+				return FAILED;
+      if (mem_insert_ref(a + 1, (k >> 5) & 0xFF) == FAILED)
 				return FAILED;
     }
     else {

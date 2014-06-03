@@ -116,6 +116,7 @@
 /* Y - symbol              */
 /* Z - breakpoint          */
 /* u - 3bit+13bit reference*/
+/* U - stack 3bit+13bit    */
 
 /**************************************************************/
 /* gb-z80                                                     */
@@ -577,6 +578,14 @@ struct block {
 #define STACKS_TYPE_16BIT   1
 #define STACKS_TYPE_24BIT   2
 #define STACKS_TYPE_UNKNOWN 3
+#define STACKS_TYPE_13BIT_0 8
+#define STACKS_TYPE_13BIT_1 9
+#define STACKS_TYPE_13BIT_2 10
+#define STACKS_TYPE_13BIT_3 11
+#define STACKS_TYPE_13BIT_4 12
+#define STACKS_TYPE_13BIT_5 13
+#define STACKS_TYPE_13BIT_6 14
+#define STACKS_TYPE_13BIT_7 15
 
 #define STACK_POSITION_DEFINITION 0
 #define STACK_POSITION_CODE       1

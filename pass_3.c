@@ -416,6 +416,7 @@ int pass_3(void) {
 
     case 'y':
     case 'C':
+    case 'U':
       fscanf(f_in, "%*d ");
       add += 2;
       continue;
