@@ -710,7 +710,7 @@ int fix_references(void) {
 									get_file_name(r->file_id), get_source_file_name(r->file_id, r->file_id_source), r->linenumber, i, l->name);
 					return FAILED;
 				}
-				mem_insert_ref(x, ((i << 3) & 0xF4) + o);
+				mem_insert_ref(x, ((i << 3) & 0xF8) + o);
 				mem_insert_ref(x + 1, (i >> 5) & 0xFF);
 			}
       else {
